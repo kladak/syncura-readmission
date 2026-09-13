@@ -1,0 +1,12 @@
+[project]
+name = "syncura-readmission"
+version = "0.1.0"
+description = "Clean-room educational readmission-risk demo (synthetic EHR, SHAP, API + dashboard)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Karim Ladak" }]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
