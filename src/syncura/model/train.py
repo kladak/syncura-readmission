@@ -97,13 +97,14 @@ def train_models(data_dir: Path, out_dir: Path, seed: int = 42) -> dict[str, Any
     )
     hgb.fit(X_train, y_train)
 
-    # Select primary model by val ROC-AUC
+    # Prefer HGB as primary for TreeExplainer SHAP in the demo API;
+    # logistic remains a calibrated baseline reported in metrics.json.
     val_scores = {
         "logistic": evaluate(y_val, logistic.predict_proba(X_val)[:, 1]),
         "hist_gradient_boosting": evaluate(y_val, hgb.predict_proba(X_val)[:, 1]),
     }
-    primary = max(val_scores, key=lambda k: val_scores[k]["roc_auc"])
-    primary_model = logistic if primary == "logistic" else hgb
+    primary = "hist_gradient_boosting"
+    primary_model = hgb
 
     test_metrics = {
         "logistic": evaluate(y_test, logistic.predict_proba(X_test)[:, 1]),

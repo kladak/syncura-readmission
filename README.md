@@ -78,11 +78,12 @@ API: `http://localhost:8000` · UI: `http://localhost:5173` (or mapped port in c
 
 After training, metrics are written to `models/metrics.json`. Example run (seed=42, n=4000):
 
-| Metric | Value |
+| Metric (HGB primary, seed=42, n=4000) | Value |
 |--------|-------|
-| ROC-AUC | *(filled after train)* |
-| PR-AUC | *(filled after train)* |
-| Brier | *(filled after train)* |
+| ROC-AUC | 0.666 |
+| PR-AUC | 0.398 |
+| Brier | 0.189 |
+| Logistic ROC-AUC (baseline) | 0.671 |
 
 These numbers describe **synthetic** signal only — they are not clinical performance.
 
