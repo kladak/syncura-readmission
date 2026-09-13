@@ -21,5 +21,5 @@ jobs:
       - name: Disclaimer present
         run: |
           grep -q "Not a medical device" README.md
-          grep -q "clean-room" README.md
-          grep -q "Not affiliated" SPEC.md
+          grep -qi "clean-room" README.md
+          grep -qi "not affiliated" SPEC.md
