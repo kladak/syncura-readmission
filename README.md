@@ -2,21 +2,13 @@
 
 **Clean-room educational demo** of interpretable 30-day readmission risk on **synthetic** EHR-like tabular data — SHAP explanations, FastAPI, and a small clinician-facing dashboard.
 
-> **Not a medical device.** Synthetic data only. Not clinically validated. Do not use for care decisions.
-
 **Owner:** [Karim Ladak](https://github.com/kladak) (`kladak`)
 
-## Clean-room / affiliation notice
+## Scope & honesty
 
-This repository is an **independent implementation** owned solely by Karim Ladak. It is **not affiliated with**, derived from, or a fork of:
+Clean-room educational implementation using synthetic data. Reported metrics apply only to the included synthetic benchmark. **Not a medical device.** Not clinically validated. Do not use for care decisions.
 
-- Fizan-Feroz/SynCura  
-- Anya198/SyncuraV0  
-- SpeciaList, Precision Cardiology, or any other Syncura-named codebase  
-
-Inspiration is limited to a public resume-style description of the *problem shape* (readmission risk + interpretability + API + dashboard). **No code was copied or cloned** from those projects.
-
-See [SPEC.md](./SPEC.md) for scope and constraints.
+See [`PROVENANCE.md`](PROVENANCE.md) for independent-implementation notes.
 
 ## What's inside
 
@@ -107,4 +99,3 @@ docker-compose.yml
 ## License
 
 MIT — educational use. No warranty. Not for clinical deployment.
-
