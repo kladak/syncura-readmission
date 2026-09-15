@@ -1,6 +1,5 @@
 {
   "synthetic": true,
-  "disclaimer": "Metrics on synthetic holdout only. Not clinical validation.",
   "seed": 42,
   "features": [
     "age",
@@ -148,5 +147,6 @@
       }
     }
   },
-  "threshold": 0.35
+  "threshold": 0.35,
+  "data_note": "Generated cohort; metrics are computed on a generated holdout split."
 }

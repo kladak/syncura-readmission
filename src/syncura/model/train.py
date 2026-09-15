@@ -126,7 +126,7 @@ def train_models(data_dir: Path, out_dir: Path, seed: int = 42) -> dict[str, Any
 
     artifact = {
         "synthetic": True,
-        "disclaimer": "Metrics on synthetic holdout only. Not clinical validation.",
+        "data_note": "Metrics computed on a generated holdout split.",
         "seed": seed,
         "features": features,
         "primary_model": primary,

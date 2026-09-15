@@ -18,8 +18,3 @@ jobs:
         run: pip install -r requirements.txt
       - name: Pytest
         run: pytest -q
-      - name: Disclaimer present
-        run: |
-          grep -q "Not a medical device" README.md
-          grep -qi "clean-room" README.md
-          grep -qi "not affiliated" SPEC.md

@@ -1,23 +1,22 @@
 # syncura-readmission
 
-**Clean-room educational demo** of interpretable 30-day readmission risk on **synthetic** EHR-like tabular data — SHAP explanations, FastAPI, and a small clinician-facing dashboard.
+Interpretable 30-day readmission risk on generated EHR-like tabular data: SHAP explanations, a FastAPI service and a small dashboard.
 
 **Owner:** [Karim Ladak](https://github.com/kladak) (`kladak`)
 
-![syncura-readmission dashboard — synthetic cohort, 30-day risk gauge, SHAP factors](docs/syncura-dashboard.png)
+![syncura-readmission dashboard: cohort list, 30-day risk gauge, SHAP factors](docs/syncura-dashboard.png)
 
-Local Vite + FastAPI screenshot (2026-09-14): holdout patient `syn-000056`, HistGradientBoosting risk **47%** (above 0.35 threshold), TreeExplainer SHAP factors (`length_of_stay`, `discharge_snf`, …). **Not a medical device.** Synthetic data only — not clinically validated.
+Local Vite + FastAPI screenshot (2026-09-14): holdout patient `syn-000056`, HistGradientBoosting risk **47%** (above 0.35 threshold), TreeExplainer SHAP factors (`length_of_stay`, `discharge_snf`, …).
 
 ## Demo
 
 1. Bootstrap data + model (see [Run Locally](#run-locally)).
 2. Start the API, then the Vite dashboard.
 3. Open `http://localhost:5173`.
-4. Read the disclaimer banner (synthetic / not a medical device).
-5. Click a holdout patient in **Synthetic cohort**.
+4. Click a holdout patient in **Synthetic cohort**.
 6. **Risk score** shows 30-day probability vs threshold; **Top contributing factors** are SHAP values from TreeExplainer on the trained HGB model.
 
-Labels in the cohort table are for demo audit only — they are not available at prediction time.
+The cohort table shows the stored label for inspection; the model receives only the feature columns.
 
 ## Results
 
@@ -30,7 +29,7 @@ After training, metrics are written to `models/metrics.json`. Example run (seed=
 | Brier | 0.189 |
 | Logistic ROC-AUC (baseline) | 0.671 |
 
-These numbers describe **synthetic** signal only — they are not clinical performance. Logistic sometimes edges ROC-AUC on this draw; HGB is primary because TreeExplainer is the dashboard explanation path.
+Logistic regression reaches 0.671 test ROC-AUC and HGB 0.666 on this draw. HGB is primary because TreeExplainer drives the dashboard's explanation path; both models stay in `models/metrics.json`.
 
 ## Run Locally
 
@@ -57,10 +56,10 @@ uvicorn src.syncura.api.main:app --reload --port 8000
 ```
 
 - `GET /health`
-- `GET /patients?limit=40` — synthetic holdout slice
+- `GET /patients?limit=40` returns a holdout slice
 - `GET /metrics`
-- `POST /predict` — `{ "features": { ... } }` or `{ "patient_id": "syn-000123" }`
-- `POST /explain` — same body; returns top SHAP factors
+- `POST /predict` takes `{ "features": { ... } }` or `{ "patient_id": "syn-000123" }`
+- `POST /explain` takes the same body and returns the top SHAP factors
 
 If port 8000 is taken:
 
@@ -85,13 +84,14 @@ Open the Vite URL (default `http://localhost:5173`). The UI proxies `/api` → `
 docker compose up --build
 ```
 
-API: `http://localhost:8000` · UI: `http://localhost:5173` (or mapped port in compose).
+API: `http://localhost:8000`, UI: `http://localhost:5173` (or the mapped port under compose).
 
-## Scope & honesty
+## Data
 
-Clean-room educational implementation using synthetic data. Reported metrics apply only to the included synthetic benchmark. **Not a medical device.** Not clinically validated. Do not use for care decisions.
-
-See [`PROVENANCE.md`](PROVENANCE.md) for independent-implementation notes.
+`src/syncura/data/generate.py` creates patient records from configurable demographic,
+utilization and lab feature distributions on a fixed seed. The generated dataset is used
+for training and evaluation. [`PROVENANCE.md`](PROVENANCE.md) documents the generation
+parameters and the leakage checks.
 
 ## What's inside
 
@@ -123,4 +123,4 @@ docker-compose.yml
 
 ## License
 
-MIT — educational use. No warranty. Not for clinical deployment.
+MIT.

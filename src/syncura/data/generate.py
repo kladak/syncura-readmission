@@ -1,5 +1,5 @@
 """
-Synthetic EHR-like tabular generator for educational 30-day readmission demos.
+Generator for EHR-like tabular data used by the 30-day readmission model.
 
 All rows are fabricated. No real hospital data. Fixed seed for reproducibility.
 Leakage-safe: features are pre-discharge only; target is post-discharge label.
@@ -109,7 +109,7 @@ def generate_cohort(
     creatinine = creatinine + 0.35 * primary_dx_renal + 0.2 * diabetes_flag
     glucose = glucose + 25 * diabetes_flag
 
-    # Sparse generative risk (educational signal, not clinical truth)
+    # Sparse generative risk signal used to produce the label.
     logit = (
         -2.35
         + 0.018 * (age - 60)
@@ -163,7 +163,7 @@ def generate_cohort(
             "diabetes_flag": diabetes_flag,
             "copd_flag": copd_flag,
             "readmitted_30d": readmitted_30d,
-            "risk_logit": np.round(logit, 4),  # audit only — stripped before training
+            "risk_logit": np.round(logit, 4),  # audit only; stripped before training
         }
     )
     return df
@@ -242,7 +242,7 @@ def write_dataset(out_dir: Path, n_patients: int = 4000, seed: int = 42) -> dict
 
     meta = {
         "synthetic": True,
-        "disclaimer": "Synthetic EHR-like data for education only. Not real patients.",
+        "data_note": "Generated cohort. No real patients.",
         "n_patients": n_patients,
         "seed": seed,
         "feature_columns": FEATURE_COLUMNS,

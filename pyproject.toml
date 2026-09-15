@@ -1,7 +1,7 @@
 [project]
 name = "syncura-readmission"
 version = "0.1.0"
-description = "Clean-room educational readmission-risk demo (synthetic EHR, SHAP, API + dashboard)"
+description = "Readmission-risk demo on synthetic EHR-like data (SHAP, FastAPI, dashboard)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

@@ -1,7 +1,7 @@
 """
 FastAPI app: /health, /predict, /explain
 
-Educational demo only — synthetic data, not a medical device.
+Serves risk scores and SHAP explanations from the trained model.
 """
 
 from __future__ import annotations
@@ -26,14 +26,9 @@ MODELS_DIR = Path(__file__).resolve().parents[3] / "models"
 if (Path.cwd() / "models" / "primary.joblib").exists():
     MODELS_DIR = Path.cwd() / "models"
 
-DISCLAIMER = (
-    "Educational research demo using synthetic data only. "
-    "Not a medical device. Not clinically validated. Not for care decisions."
-)
-
 app = FastAPI(
     title="syncura-readmission API",
-    description=DISCLAIMER,
+    description="Readmission risk scores and SHAP explanations over a generated cohort.",
     version="0.1.0",
 )
 
@@ -63,7 +58,6 @@ class PredictResponse(BaseModel):
     high_risk: bool
     threshold: float
     patient_id: str | None = None
-    disclaimer: str = DISCLAIMER
 
 
 class ExplainResponse(BaseModel):
@@ -72,7 +66,6 @@ class ExplainResponse(BaseModel):
     threshold: float
     patient_id: str | None = None
     top_factors: list[Factor]
-    disclaimer: str = DISCLAIMER
 
 
 @lru_cache(maxsize=1)
@@ -141,7 +134,6 @@ def health() -> dict[str, Any]:
     return {
         "status": "ok" if ready else "degraded",
         "model_ready": ready,
-        "disclaimer": DISCLAIMER,
         "synthetic": True,
     }
 
@@ -151,18 +143,17 @@ def list_patients(limit: int = 50) -> dict[str, Any]:
     art = _load_artifacts()
     demo: pd.DataFrame | None = art["demo"]
     if demo is None:
-        return {"patients": [], "disclaimer": DISCLAIMER}
+        return {"patients": [], "synthetic": True}
     cols = ["patient_id", "age", "length_of_stay", "charlson_proxy", "readmitted_30d"]
     cols = [c for c in cols if c in demo.columns]
     records = demo[cols].head(limit).to_dict(orient="records")
-    return {"patients": records, "disclaimer": DISCLAIMER, "synthetic": True}
+    return {"patients": records, "synthetic": True}
 
 
 @app.get("/metrics")
 def metrics() -> dict[str, Any]:
     art = _load_artifacts()
     m = dict(art["metrics"])
-    m["disclaimer"] = DISCLAIMER
     return m
 
 

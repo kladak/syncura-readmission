@@ -33,7 +33,7 @@ def test_health(client):
     assert r.status_code == 200
     body = r.json()
     assert body["status"] == "ok"
-    assert "disclaimer" in body
+    assert body["synthetic"] is True
 
 
 def test_predict_and_explain_with_features(client):
@@ -54,7 +54,6 @@ def test_predict_and_explain_with_features(client):
     assert r.status_code == 200
     pred = r.json()
     assert 0 <= pred["risk_score"] <= 1
-    assert "disclaimer" in pred
 
     r2 = client.post("/explain", json={"features": features})
     assert r2.status_code == 200

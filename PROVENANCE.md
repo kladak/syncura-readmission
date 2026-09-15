@@ -1,11 +1,9 @@
-# Provenance & affiliation notes
+# Data provenance
 
-This repository is an **independent implementation** owned solely by Karim Ladak. It is not affiliated with, derived from, or a fork of:
+`src/syncura/data/generate.py` creates every record in this repository from a fixed seed.
 
-- Fizan-Feroz/SynCura
-- Anya198/SyncuraV0
-- SpeciaList, Precision Cardiology, or any other Syncura-named codebase
-
-Inspiration is limited to a public resume-style description of the *problem shape* (readmission risk + interpretability + API + dashboard). **No code was copied or cloned** from those projects.
-
-See [SPEC.md](./SPEC.md) for scope and constraints.
+`data/meta.json` records the generation parameters alongside a leakage report: row and
+feature counts, split sizes, the target's positive rate, and `forbidden_in_features`, which
+must stay empty. The generative `risk_logit` and `patient_id` are dropped before the CSV is
+written, so `FEATURE_COLUMNS` carries only the 23 modelling features. The target is used in
+evaluation and shown in the dashboard's audit column.

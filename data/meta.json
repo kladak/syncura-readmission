@@ -1,6 +1,5 @@
 {
   "synthetic": true,
-  "disclaimer": "Synthetic EHR-like data for education only. Not real patients.",
   "n_patients": 4000,
   "seed": 42,
   "feature_columns": [
@@ -40,5 +39,6 @@
     },
     "leakage_ok": true,
     "forbidden_in_features": []
-  }
+  },
+  "data_note": "Generated cohort; metrics are computed on a generated holdout split."
 }

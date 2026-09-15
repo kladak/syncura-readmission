@@ -103,10 +103,10 @@ export default function App() {
       .finally(() => setLoading(false));
   }, [selected]);
 
-  const primaryName = metrics?.primary_model ?? "—";
+  const primaryName = metrics?.primary_model ?? "–";
   const testAuc = useMemo(() => {
     const t = metrics?.test?.[metrics?.primary_model];
-    return t?.roc_auc != null ? t.roc_auc.toFixed(3) : "—";
+    return t?.roc_auc != null ? t.roc_auc.toFixed(3) : "–";
   }, [metrics]);
 
   return (
@@ -114,7 +114,7 @@ export default function App() {
       <header className="top">
         <div>
           <div className="brand">syncura-readmission</div>
-          <div className="sub">Clean-room educational demo · Karim Ladak</div>
+          <div className="sub">Generated cohort</div>
         </div>
         <div className="meta-chips">
           <span className="chip">Synthetic EHR</span>
@@ -123,12 +123,6 @@ export default function App() {
           <span className="chip">holdout AUC {testAuc}</span>
         </div>
       </header>
-
-      <div className="banner">
-        <strong>Not a medical device.</strong> Synthetic data only — not clinically
-        validated. Do not use for diagnosis, treatment, or discharge planning. Not
-        affiliated with prior Syncura-named projects.
-      </div>
 
       {error && <div className="error">{error}</div>}
 
@@ -164,7 +158,7 @@ export default function App() {
               </tbody>
             </table>
           </div>
-          <p className="fine">* Label shown for demo audit only — not available at prediction time.</p>
+          <p className="fine">* Label shown for inspection only; not available at prediction time.</p>
         </section>
 
         <section className="card stack">
@@ -188,7 +182,7 @@ export default function App() {
       </main>
 
       <footer>
-        Independent clean-room build by Karim Ladak · MIT · Educational research only
+        Karim Ladak · MIT
       </footer>
     </div>
   );
